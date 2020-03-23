@@ -20,23 +20,13 @@ impl Clock {
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        Clock {
-            t: normalize(self.t as i32 + minutes),
-        }
+        let t = normalize(self.t as i32 + minutes);
+        Clock { t: t }
     }
 }
 
 fn normalize(t: i32) -> u32 {
-    let mut h = (t / 60) % 24;
-    let mut m = t % 60;
-    if m < 0 {
-        h = h - 1;
-        m = m + 60;
-    }
-
-    if h < 0 {
-        h = h + 24;
-    }
-
+    let h = (t.div_euclid(60)).rem_euclid(24);
+    let m = t.rem_euclid(60);
     (h * 60 + m) as u32
 }
