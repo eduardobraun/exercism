@@ -1,5 +1,4 @@
-const ASCII_LZ: u8 = 'z' as u8;
-const ASCII_LA: u8 = 'a' as u8;
+const ASCII_INVERTER: u8 = 'a' as u8 + 'z' as u8;
 
 /// "Encipher" with the Atbash cipher.
 pub fn encode(plain: &str) -> String {
@@ -7,7 +6,7 @@ pub fn encode(plain: &str) -> String {
         .to_lowercase()
         .chars()
         .filter_map(|c| match c {
-            'a'..='z' => Some((ASCII_LZ - c as u8 + ASCII_LA) as char),
+            'a'..='z' => Some((ASCII_INVERTER - c as u8) as char),
             '0'..='9' => Some(c),
             _ => None,
         })
@@ -23,7 +22,7 @@ pub fn decode(cipher: &str) -> String {
     cipher
         .chars()
         .filter_map(|c| match c {
-            'a'..='z' => Some((ASCII_LZ - c as u8 + ASCII_LA) as char),
+            'a'..='z' => Some((ASCII_INVERTER - c as u8) as char),
             '0'..='9' => Some(c),
             _ => None,
         })
