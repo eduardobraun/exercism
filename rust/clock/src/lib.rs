@@ -17,12 +17,12 @@ impl fmt::Display for Clock {
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
         let t = normalize(hours * 60 + minutes);
-        Clock { t: t }
+        Clock { t }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
         let t = normalize(self.t as i32 + minutes);
-        Clock { t: t }
+        Clock { t }
     }
 
     fn time(&self) -> (u8, u8) {
