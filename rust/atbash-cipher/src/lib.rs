@@ -1,8 +1,10 @@
-fn ascii_invert_az(c: char) -> Option<char> {
-    const ASCII_INVERTER: u8 = 'a' as u8 + 'z' as u8;
+fn atbash_encode_char(c: char) -> Option<char> {
+    const ASCII_INVERT: u8 = b'a' + b'z';
+
+    let c = (c as u8).to_ascii_lowercase();
     match c {
-        'a'..='z' => Some((ASCII_INVERTER - c as u8) as char),
-        '0'..='9' => Some(c),
+        b'a'..=b'z' => Some((ASCII_INVERT - c) as char),
+        b'0'..=b'9' => Some(c as char),
         _ => None,
     }
 }
@@ -10,9 +12,8 @@ fn ascii_invert_az(c: char) -> Option<char> {
 /// "Encipher" with the Atbash cipher.
 pub fn encode(plain: &str) -> String {
     plain
-        .to_lowercase()
         .chars()
-        .filter_map(|c| ascii_invert_az(c))
+        .filter_map(|c| atbash_encode_char(c))
         .collect::<Vec<char>>()
         .chunks(5)
         .map(|chunk| chunk.iter().collect::<String>())
@@ -24,6 +25,6 @@ pub fn encode(plain: &str) -> String {
 pub fn decode(cipher: &str) -> String {
     cipher
         .chars()
-        .filter_map(|c| ascii_invert_az(c))
+        .filter_map(|c| atbash_encode_char(c))
         .collect::<String>()
 }
